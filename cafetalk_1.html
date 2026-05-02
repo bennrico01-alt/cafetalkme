@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CafeTalk — Where Every Cup Starts a Story</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #F7F0E6;
+    --warm-tan: #D4B896;
+    --brown: #7C5A3A;
+    --dark-brown: #3E2C1A;
+    --espresso: #1C1108;
+    --sage: #8A9E7B;
+    --clay: #C17F5A;
+    --light-clay: #EDD9C5;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--dark-brown);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: rgba(247, 240, 230, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(124, 90, 58, 0.15);
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--dark-brown);
+    letter-spacing: 0.02em;
+  }
+  .logo span { color: var(--clay); font-style: italic; }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a {
+    font-size: 0.85rem; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--brown);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--clay); }
+  .nav-cta {
+    background: var(--dark-brown); color: var(--cream);
+    padding: 0.55rem 1.4rem; border-radius: 2px;
+    font-size: 0.8rem; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; text-decoration: none;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--clay); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    padding-top: 72px;
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 5rem 3rem 5rem 4rem;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--clay);
+    margin-bottom: 1.5rem;
+  }
+  .hero-tag::before {
+    content: ''; display: block;
+    width: 24px; height: 1px; background: var(--clay);
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4rem);
+    line-height: 1.1;
+    color: var(--espresso);
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 em { color: var(--clay); font-style: italic; }
+  .hero-desc {
+    font-size: 1rem; font-weight: 300; color: var(--brown);
+    line-height: 1.8; max-width: 380px; margin-bottom: 2.5rem;
+  }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--dark-brown); color: var(--cream);
+    padding: 0.85rem 2rem; border-radius: 2px;
+    font-size: 0.85rem; font-weight: 500; letter-spacing: 0.06em;
+    text-decoration: none; transition: background 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--clay); }
+  .btn-outline {
+    border: 1.5px solid var(--brown); color: var(--brown);
+    padding: 0.85rem 2rem; border-radius: 2px;
+    font-size: 0.85rem; font-weight: 500; letter-spacing: 0.06em;
+    text-decoration: none; transition: all 0.2s;
+    display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--clay); color: var(--clay); }
+  .hero-stats {
+    display: flex; gap: 2.5rem; margin-top: 3.5rem;
+    padding-top: 2rem; border-top: 1px solid rgba(124,90,58,0.2);
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; font-weight: 600; color: var(--dark-brown);
+  }
+  .stat-label {
+    font-size: 0.75rem; font-weight: 400; color: var(--brown);
+    letter-spacing: 0.05em; margin-top: 2px;
+  }
+  .hero-right {
+    position: relative;
+    background: var(--light-clay);
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-img-placeholder {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 1rem;
+    background: linear-gradient(135deg, #EDD9C5 0%, #D4B896 60%, #C17F5A22 100%);
+  }
+  .coffee-cup-svg { opacity: 0.6; }
+  .hero-badge {
+    position: absolute; bottom: 2.5rem; left: 2rem;
+    background: var(--espresso); color: var(--cream);
+    padding: 1rem 1.4rem; border-radius: 4px;
+  }
+  .hero-badge p:first-child {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; font-weight: 600;
+  }
+  .hero-badge p:last-child {
+    font-size: 0.7rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--warm-tan); margin-top: 2px;
+  }
+  .deco-circle {
+    position: absolute; top: -60px; right: -60px;
+    width: 200px; height: 200px; border-radius: 50%;
+    border: 40px solid rgba(193,127,90,0.12);
+  }
+  .deco-circle-2 {
+    position: absolute; bottom: 40px; right: 40px;
+    width: 100px; height: 100px; border-radius: 50%;
+    border: 20px solid rgba(212,184,150,0.3);
+  }
+
+  /* ── INFO STRIP ── */
+  .strip {
+    background: var(--dark-brown); color: var(--cream);
+    padding: 1.5rem 4rem;
+    display: flex; align-items: center; gap: 3rem;
+    overflow: hidden; flex-wrap: wrap;
+  }
+  .strip-item {
+    display: flex; align-items: center; gap: 0.75rem;
+    white-space: nowrap; font-size: 0.85rem; letter-spacing: 0.05em;
+    color: var(--warm-tan);
+  }
+  .strip-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--clay); flex-shrink: 0; }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 4rem; }
+  .section-label {
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--clay); margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    color: var(--espresso); line-height: 1.2; margin-bottom: 1rem;
+  }
+  .section-sub {
+    font-size: 0.95rem; font-weight: 300; color: var(--brown);
+    line-height: 1.8; max-width: 480px; margin-bottom: 3rem;
+  }
+
+  /* ── MENU ── */
+  .menu-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px;
+    background: rgba(124,90,58,0.15); border: 1.5px solid rgba(124,90,58,0.15);
+  }
+  .menu-item {
+    background: var(--cream); padding: 2rem 1.75rem;
+    transition: background 0.2s, transform 0.15s; cursor: pointer;
+  }
+  .menu-item:hover { background: var(--light-clay); transform: scale(1.01); }
+  .menu-item:active { transform: scale(0.98); }
+  .menu-icon {
+    font-size: 1.5rem; margin-bottom: 1rem;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--light-clay);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .menu-item h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; color: var(--espresso); margin-bottom: 0.4rem;
+  }
+  .menu-item p { font-size: 0.85rem; color: var(--brown); line-height: 1.6; margin-bottom: 1rem; }
+  .menu-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; color: var(--clay); font-weight: 600;
+  }
+
+  /* ── MODAL OVERLAY ── */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 999;
+    background: rgba(28, 17, 8, 0.65);
+    backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 1.5rem;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .modal-overlay.active { opacity: 1; pointer-events: all; }
+
+  .modal-card {
+    background: var(--cream);
+    border-radius: 4px;
+    max-width: 480px; width: 100%;
+    overflow: hidden;
+    transform: translateY(32px) scale(0.96);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+    opacity: 0;
+    position: relative;
+  }
+  .modal-overlay.active .modal-card {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+
+  .modal-hero {
+    background: var(--light-clay);
+    height: 180px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .modal-hero-emoji {
+    font-size: 5rem;
+    animation: floatIcon 3s ease-in-out infinite;
+    filter: drop-shadow(0 8px 16px rgba(62,44,26,0.15));
+  }
+  @keyframes floatIcon {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .modal-hero-deco {
+    position: absolute; bottom: -30px; right: -30px;
+    width: 120px; height: 120px; border-radius: 50%;
+    border: 30px solid rgba(193,127,90,0.15);
+  }
+  .modal-hero-deco2 {
+    position: absolute; top: -20px; left: -20px;
+    width: 80px; height: 80px; border-radius: 50%;
+    border: 20px solid rgba(212,184,150,0.2);
+  }
+
+  .modal-body { padding: 2rem 2rem 1.5rem; }
+  .modal-tag {
+    font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--clay); margin-bottom: 0.5rem;
+  }
+  .modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; color: var(--espresso);
+    margin-bottom: 0.75rem; line-height: 1.2;
+  }
+  .modal-desc { font-size: 0.9rem; color: var(--brown); line-height: 1.8; margin-bottom: 1.5rem; }
+  .modal-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 2rem;
+    border-top: 1px solid rgba(124,90,58,0.15);
+  }
+  .modal-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; color: var(--clay); font-weight: 600;
+  }
+  .modal-close {
+    background: var(--dark-brown); color: var(--cream);
+    border: none; padding: 0.65rem 1.5rem;
+    border-radius: 2px; font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .modal-close:hover { background: var(--clay); }
+
+  /* ── ABOUT ── */
+  .about { background: var(--light-clay); }
+  .about-inner {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+    align-items: center;
+  }
+  .about-visual {
+    aspect-ratio: 4/5;
+    background: var(--warm-tan);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .about-deco {
+    position: absolute; top: 1.5rem; left: 1.5rem; right: 1.5rem; bottom: 1.5rem;
+    border: 1.5px solid rgba(124,90,58,0.3); border-radius: 2px; pointer-events: none;
+  }
+  .about-visual-inner {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem; opacity: 0.15; color: var(--dark-brown); font-style: italic;
+  }
+  .values { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; }
+  .value-item { display: flex; gap: 1rem; align-items: flex-start; }
+  .value-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; color: var(--clay); font-weight: 600;
+    flex-shrink: 0; width: 28px;
+  }
+  .value-text h4 { font-size: 0.95rem; font-weight: 500; color: var(--dark-brown); margin-bottom: 0.25rem; }
+  .value-text p { font-size: 0.85rem; color: var(--brown); line-height: 1.6; font-weight: 300; }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials { background: var(--espresso); color: var(--cream); }
+  .testimonials .section-title { color: var(--cream); }
+  .testimonials .section-sub { color: var(--warm-tan); }
+  .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .testi-card {
+    border: 1px solid rgba(212,184,150,0.2); padding: 2rem; border-radius: 2px;
+  }
+  .testi-card p {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; font-style: italic; color: var(--warm-tan);
+    line-height: 1.7; margin-bottom: 1.5rem;
+  }
+  .testi-author { font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--clay); }
+
+  /* ── VISIT ── */
+  .visit-inner {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start;
+  }
+  .info-block { margin-bottom: 2rem; }
+  .info-label {
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--clay); margin-bottom: 0.4rem;
+  }
+  .info-val { font-size: 1rem; color: var(--dark-brown); font-weight: 400; line-height: 1.6; }
+  .map-placeholder {
+    height: 300px; background: var(--light-clay);
+    border: 1.5px solid rgba(124,90,58,0.2);
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 2px; flex-direction: column; gap: 0.75rem;
+  }
+  .map-placeholder span { font-size: 0.8rem; color: var(--brown); letter-spacing: 0.06em; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--espresso); color: var(--warm-tan);
+    padding: 3rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid rgba(212,184,150,0.1);
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; color: var(--cream);
+  }
+  .footer-logo span { color: var(--clay); font-style: italic; }
+  footer p { font-size: 0.8rem; letter-spacing: 0.06em; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-left > * { animation: fadeUp 0.7s ease forwards; opacity: 0; }
+  .hero-left > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-left > *:nth-child(2) { animation-delay: 0.2s; }
+  .hero-left > *:nth-child(3) { animation-delay: 0.3s; }
+  .hero-left > *:nth-child(4) { animation-delay: 0.4s; }
+  .hero-left > *:nth-child(5) { animation-delay: 0.5s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-right { min-height: 300px; }
+    .hero-left { padding: 3rem 1.5rem; }
+    section { padding: 4rem 1.5rem; }
+    .menu-grid { grid-template-columns: 1fr 1fr; }
+    .about-inner, .visit-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .strip { padding: 1.5rem; gap: 1.5rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+  }
+  @media (max-width: 600px) {
+    .menu-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Cafe<span>Talk</span></div>
+  <div class="nav-links">
+    <a href="#menu">Menu</a>
+    <a href="#about">About</a>
+    <a href="#visit">Visit</a>
+  </div>
+  <a href="#visit" class="nav-cta">Find Us</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="padding:0; padding-top:72px;">
+  <div class="hero-left">
+    <div class="hero-tag">Est. 2024 · Cebu City</div>
+    <h1>Where Every Cup <em>Starts</em> a Story</h1>
+    <p class="hero-desc">CafeTalk is your warm corner in the city — specialty coffee, honest food, and conversations worth having.</p>
+    <div class="hero-btns">
+      <a href="#menu" class="btn-primary">Explore Our Menu</a>
+      <a href="#visit" class="btn-outline">Visit Us</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">12+</div>
+        <div class="stat-label">Coffee Origins</div>
+      </div>
+      <div>
+        <div class="stat-num">7am</div>
+        <div class="stat-label">Opens Daily</div>
+      </div>
+      <div>
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Local Suppliers</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="deco-circle"></div>
+    <div class="deco-circle-2"></div>
+    <div class="hero-img-placeholder">
+      <!-- Replace this SVG with an <img> tag pointing to your hero photo -->
+      <svg class="coffee-cup-svg" width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="90" cy="145" rx="52" ry="10" fill="#7C5A3A" opacity="0.3"/>
+        <path d="M50 75 Q50 140 90 140 Q130 140 130 75 Z" fill="#7C5A3A" opacity="0.5"/>
+        <rect x="48" y="68" width="84" height="12" rx="6" fill="#5C3D20" opacity="0.6"/>
+        <path d="M130 82 Q152 82 152 100 Q152 118 130 118" stroke="#7C5A3A" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.6"/>
+        <path d="M75 50 Q75 38 83 38 Q91 38 91 50" stroke="#C17F5A" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.5"/>
+        <path d="M95 45 Q95 33 103 33 Q111 33 111 45" stroke="#C17F5A" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.4"/>
+      </svg>
+    </div>
+    <div class="hero-badge">
+      <p>Specialty Coffee</p>
+      <p>Freshly Roasted Daily</p>
+    </div>
+  </div>
+</section>
+
+<!-- INFO STRIP -->
+<div class="strip">
+  <div class="strip-item"><div class="strip-dot"></div> Specialty Grade Beans</div>
+  <div class="strip-item"><div class="strip-dot"></div> Homemade Pastries</div>
+  <div class="strip-item"><div class="strip-dot"></div> Free WiFi</div>
+  <div class="strip-item"><div class="strip-dot"></div> Pet Friendly Outdoor Area</div>
+  <div class="strip-item"><div class="strip-dot"></div> Open 7 Days a Week</div>
+  <div class="strip-item"><div class="strip-dot"></div> Coworking Friendly</div>
+</div>
+
+<!-- MENU -->
+<section id="menu">
+  <p class="section-label">What We Serve</p>
+  <h2 class="section-title">A Menu Crafted<br>with Intention</h2>
+  <p class="section-sub">Every item on our menu is made with care — from single-origin espresso to toasted tartines that pair perfectly with your afternoon cup.</p>
+  <div class="menu-grid">
+    <div class="menu-item" onclick="openModal('☕','Pour Over','Drinks','Single-origin beans, slow-brewed to reveal the full flavor profile. Each cup highlights the unique terroir of the origin — fruity, floral, or nutty depending on the season.','₱180')">
+      <div class="menu-icon">☕</div>
+      <h3>Pour Over</h3>
+      <p>Single-origin beans, slow-brewed to reveal the full flavor profile.</p>
+      <div class="menu-price">₱180</div>
+    </div>
+    <div class="menu-item" onclick="openModal('🥛','Crafted Latte','Drinks','Silky oat or whole milk steamed with our house espresso blend. Smooth, balanced, and never bitter — the kind of latte you come back for every morning.','₱160')">
+      <div class="menu-icon">🥛</div>
+      <h3>Crafted Latte</h3>
+      <p>Silky oat or whole milk steamed with our house espresso blend.</p>
+      <div class="menu-price">₱160</div>
+    </div>
+    <div class="menu-item" onclick="openModal('🍵','Matcha Latte','Drinks','Ceremonial-grade matcha whisked smooth with lightly sweetened milk. Earthy, vibrant, and beautifully calming — our most Instagrammed drink.','₱175')">
+      <div class="menu-icon">🍵</div>
+      <h3>Matcha Latte</h3>
+      <p>Ceremonial-grade matcha whisked smooth with lightly sweetened milk.</p>
+      <div class="menu-price">₱175</div>
+    </div>
+    <div class="menu-item" onclick="openModal('🥐','Butter Croissant','Pastry','Laminated in-house, baked fresh each morning until golden. Crispy on the outside, impossibly flaky within — pairs perfectly with any of our coffees.','₱120')">
+      <div class="menu-icon">🥐</div>
+      <h3>Butter Croissant</h3>
+      <p>Laminated in-house, baked fresh each morning until golden.</p>
+      <div class="menu-price">₱120</div>
+    </div>
+    <div class="menu-item" onclick="openModal('🍳','Avocado Toast','Food','Sourdough, smashed avocado, chili flakes, a perfectly poached egg. Topped with a drizzle of good olive oil and a pinch of flaky sea salt. Filling and fresh.','₱220')">
+      <div class="menu-icon">🍳</div>
+      <h3>Avocado Toast</h3>
+      <p>Sourdough, smashed avocado, chili flakes, a perfectly poached egg.</p>
+      <div class="menu-price">₱220</div>
+    </div>
+    <div class="menu-item" onclick="openModal('🍰','Daily Slice','Pastry','Ask your barista what\'s fresh — we bake a new cake every single day. From ube cheesecake to calamansi tart, every slice is made with local ingredients and lots of love.','₱150')">
+      <div class="menu-icon">🍰</div>
+      <h3>Daily Slice</h3>
+      <p>Ask your barista what's fresh — we bake a new cake every single day.</p>
+      <div class="menu-price">₱150</div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU MODAL -->
+<div class="modal-overlay" id="menuModal" onclick="closeModalOnOverlay(event)">
+  <div class="modal-card" id="modalCard">
+    <div class="modal-hero">
+      <div class="modal-hero-deco"></div>
+      <div class="modal-hero-deco2"></div>
+      <div class="modal-hero-emoji" id="modalEmoji">☕</div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-tag" id="modalTag">Drinks</div>
+      <div class="modal-title" id="modalTitle">Pour Over</div>
+      <div class="modal-desc" id="modalDesc">Description here.</div>
+    </div>
+    <div class="modal-footer">
+      <div class="modal-price" id="modalPrice">₱180</div>
+      <button class="modal-close" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openModal(emoji, title, tag, desc, price) {
+    document.getElementById('modalEmoji').textContent = emoji;
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalTag').textContent = tag;
+    document.getElementById('modalDesc').textContent = desc;
+    document.getElementById('modalPrice').textContent = price;
+    document.getElementById('menuModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    document.getElementById('menuModal').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  function closeModalOnOverlay(e) {
+    if (e.target === document.getElementById('menuModal')) closeModal();
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+</script>
+
+<!-- ABOUT -->
+<section id="about" class="about">
+  <div class="about-inner">
+    <div class="about-visual">
+      <div class="about-deco"></div>
+      <!-- Replace the text below with an <img src="your-photo.jpg"> -->
+      <div class="about-visual-inner">CT</div>
+    </div>
+    <div>
+      <p class="section-label">Our Story</p>
+      <h2 class="section-title">More Than Coffee — A Community</h2>
+      <p class="section-sub">CafeTalk was born from a simple belief: a great cup of coffee deserves a great conversation. We built a space where both can thrive.</p>
+      <div class="values">
+        <div class="value-item">
+          <div class="value-num">01</div>
+          <div class="value-text">
+            <h4>Sourced with care</h4>
+            <p>We partner directly with farmers across the Philippines and Southeast Asia for traceable, ethical beans.</p>
+          </div>
+        </div>
+        <div class="value-item">
+          <div class="value-num">02</div>
+          <div class="value-text">
+            <h4>Made from scratch</h4>
+            <p>No shortcuts — every pastry, sauce, and topping is prepared in our kitchen each morning.</p>
+          </div>
+        </div>
+        <div class="value-item">
+          <div class="value-num">03</div>
+          <div class="value-text">
+            <h4>A place to belong</h4>
+            <p>Whether you're working solo, catching up with a friend, or just need a quiet corner — CafeTalk is yours.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <p class="section-label" style="color:var(--clay);">What People Say</p>
+  <h2 class="section-title">Guests Who Stayed<br>for the Story</h2>
+  <p class="section-sub">From first-timers to daily regulars — here's what the CafeTalk community has to say.</p>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <p>"Best pour over I've had in Cebu. The space is cozy without being cramped — I come here every Saturday morning."</p>
+      <div class="testi-author">— Maria L., Lahug</div>
+    </div>
+    <div class="testi-card">
+      <p>"The avocado toast and matcha latte combo is unbeatable. Staff are genuinely warm and the playlist is always spot on."</p>
+      <div class="testi-author">— James R., IT Park</div>
+    </div>
+    <div class="testi-card">
+      <p>"I've hosted three client meetings here and every time it's been perfect. Good coffee, fast wifi, no noise pressure."</p>
+      <div class="testi-author">— Ana V., Freelancer</div>
+    </div>
+  </div>
+</section>
+
+<!-- VISIT -->
+<section id="visit">
+  <div class="visit-inner">
+    <div>
+      <p class="section-label">Find Us</p>
+      <h2 class="section-title">Come In,<br>Stay a While</h2>
+      <div class="info-block">
+        <div class="info-label">Address</div>
+        <div class="info-val">123 Sanciangko Street<br>Cebu City, 6000</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Hours</div>
+        <div class="info-val">Mon – Fri: 7:00 AM – 9:00 PM<br>Sat – Sun: 8:00 AM – 10:00 PM</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Contact</div>
+        <div class="info-val">hello@cafetalk.ph<br>+63 917 123 4567</div>
+      </div>
+      <a href="mailto:hello@cafetalk.ph" class="btn-primary" style="margin-top:1rem;">Send Us a Message</a>
+    </div>
+    <div>
+      <div class="map-placeholder">
+        <!-- Replace with a real Google Maps embed iframe -->
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+          <circle cx="20" cy="18" r="7" stroke="#C17F5A" stroke-width="2"/>
+          <path d="M20 11 L20 7" stroke="#C17F5A" stroke-width="2" stroke-linecap="round"/>
+          <path d="M20 29 L20 33" stroke="#C17F5A" stroke-width="2" stroke-linecap="round"/>
+          <path d="M13 18 L9 18" stroke="#C17F5A" stroke-width="2" stroke-linecap="round"/>
+          <path d="M31 18 L27 18" stroke="#C17F5A" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="20" cy="18" r="3" fill="#C17F5A"/>
+          <path d="M20 25 C20 25 13 19 13 15 C13 11.13 16.13 8 20 8 C23.87 8 27 11.13 27 15 C27 19 20 25 20 25Z" stroke="#C17F5A" stroke-width="1.5" fill="none" opacity="0.4"/>
+        </svg>
+        <span>Sanciangko St., Cebu City</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Cafe<span>Talk</span></div>
+  <p>© 2024 CafeTalk. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
